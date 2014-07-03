@@ -6,17 +6,15 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            Poole
+title:            TEST
 tagline:          The Jekyll Butler
-url:              http://getpoole.com
+
 paginate:         1
 baseurl:          /
 author:
-  name:           Mark Otto
-  url:            https://twitter.com/mdo
-  email:          markdotto@gmail.com
+  name:           Dany Wilson
 
 # Custom vars
 version:          1.0.0
 github:
-  repo:           https://github.com/poole/poole
+  repo:           https://github.com/dwils098/dwils098.github.io
