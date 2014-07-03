@@ -10,11 +10,9 @@ title:            TEST
 tagline:          The Jekyll Butler
 
 paginate:         1
-baseurl:          /
-author:
-  name:           Dany Wilson
+baseurl:          http://dwils098.github.io/
 
 # Custom vars
 version:          1.0.0
 github:
-  repo:           https://github.com/dwils098/dwils098.github.io
+  repo:           https://github.com/dwils098/dwils098.github.io/
