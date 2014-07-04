@@ -1,0 +1,18 @@
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            TEST
+tagline:          The Jekyll Butler
+
+paginate:         1
+baseurl:          http://dwils098.github.io/
+
+# Custom vars
+version:          1.0.0
+github:
+  repo:           https://github.com/dwils098/dwils098.github.io/
