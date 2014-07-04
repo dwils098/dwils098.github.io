@@ -1,5 +1,5 @@
 # Dependencies
-#markdown:         redcarpet
+markdown:         redcarpet
 pygments:         true
 
 # Permalinks
@@ -10,7 +10,7 @@ title:            TEST
 tagline:          The Jekyll Butler
 
 paginate:         1
-baseurl:          http://dwils098.github.io/index.html
+baseurl:          http://dwils098.github.io/
 
 # Custom vars
 version:          1.0.0
