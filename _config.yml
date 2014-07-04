@@ -1,0 +1,13 @@
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Poole
+tagline:          The Jekyll Butler
+paginate:         1
+baseurl:          http://dwils098.github.io/
+
