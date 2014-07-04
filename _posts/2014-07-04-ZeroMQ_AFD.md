@@ -8,6 +8,7 @@ As an exploration exercise, I wished to utilize a [Publish-Subscribe Architectur
 ---
 *It's sockets on steroids. It's like mailboxes with routing. It's fast! [...] Things just become simpler. Complexity goes away. It opens the mind.*
 
+---
 Lanyon is an unassuming [Jekyll](http://jekyllrb.com) theme that places content first by tucking away navigation in a hidden drawer. It's based on [Poole](http://getpoole.com), the Jekyll butler.
 
 ### Built on Poole
