@@ -14,7 +14,7 @@ And let's be honest this is pretty catchy! So I'm in!
 
 ## Zguide: notes and thoughts
 
-These are just my thoughts on the exemples and some notes to ease my comprehension as I walkthrough the guide various chapters. Please note that I will be using the Python binding to use the 0mq library, and thus will work through the examples in Python language.
+These are just my thoughts on the examples and some notes to ease my comprehension as I walkthrough the guide various chapters. Please note that I will be using the Python binding to use the 0mq library, and thus will work through the examples in Python language.
 
 ###Chapter 1
 ####First Example: Request-Reply Pattern 
