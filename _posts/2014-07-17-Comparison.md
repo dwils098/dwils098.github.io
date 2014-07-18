@@ -39,5 +39,7 @@ Criteria | Result
 **RP**: Node Lookup | `O(log N)` messages are required.  
 **RP**: Key Lookup | `O(log N)` messages are required. 
 **RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
-Failure Resistant |
-**Overall Performance** |
+Failure Resistant | With a successor list of length `r = O(log N)` in a network that is initially stable, and then every node fails with probability of `1/2`, then the expected time to execute *find_successor* in the failed network is `O(log N)`† 
+**Overall Performance** | Node/Key Lookup (in presence of high failure rate) still remains `O(log N)`
+
+† *taken from the [original paper](http://pdos.csail.mit.edu/papers/chord:sigcomm01/chord_sigcomm.pdf)*
