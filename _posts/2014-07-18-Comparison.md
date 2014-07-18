@@ -62,7 +62,7 @@ Failure Resistant | With a pointer to a list of successors of length `θ(log N)`
 Criteria | Results
 :-- | :--:
 **Nodes**: State | Each node has to maintain three tables: Leaf Set (L), Routing Table (`O(log N)`) and the Neighborhood Set (M). Total = L + M + `O(log N)`. †
-**Nodes**: Joining Cost | `O(log<sub>2<sup>b</sup></sub> N)` messages are required. (As with Chord.)
+**Nodes**: Joining Cost | O(log<sub>2<sup>b</sup></sub> N) messages are required. (As with Chord.)
 **Nodes**: Leaving Cost | `O(log^2 N)` messages are required. (As with Chord.)
 **RP**: Node Lookup | `O(log N)` messages are required.
 **RP**: Key Lookup | `O(log N)` messages are required.
