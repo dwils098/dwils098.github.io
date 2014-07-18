@@ -15,6 +15,8 @@ These represents the **main** evaluation criteria:
 	
 	ii. Joining Cost.
 	
+	iii. Leaving Cost.
+	
 2. Routing Protocol:
 	
 	i. Node Lookup Cost/Key Lookup Cost.
@@ -31,10 +33,11 @@ Let's look at each of them separately for each DHT, then we will present a summa
 
 Criteria | Result 
 :-- | :--:
-**Nodes**: State | foo 
-**Nodes**: Join | bar  
-**RP**: Node Lookup | baz  
-**RP**: Key Lookup |
-**RP**: Deterministic |
+**Nodes**: State | Has "Finger Tables", each node maintains information about `O(log N)` other nodes.
+**Nodes**: Joining Cost | `O(log^2 N)` messages are required.
+**Nodes**: Leaving Cost | `O(log^2 N)` messages are required.
+**RP**: Node Lookup | `O(log N)` messages are required.  
+**RP**: Key Lookup | `O(log N)` messages are required. 
+**RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
 Failure Resistant |
 **Overall Performance** |
