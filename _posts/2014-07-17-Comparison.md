@@ -26,7 +26,8 @@ These represents the **main** evaluation criteria:
 ###Chord
 
 
-| Criteria | Result |
-| ------ | :----: |
-| dadssaddsadsa | sdasdasd |
-| asda | asdsad |
+dog | bird | cat
+:-- | :--: | --:
+foo | foo  | foo
+bar | bar  | bar
+baz | baz  | baz
