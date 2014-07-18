@@ -33,9 +33,9 @@ Let's look at each of them separately for each DHT, then we will present a summa
 
 Criteria | Results
 :-- | :--:
-**Nodes**: State | Has "Finger Tables", each node maintains information about `O(log N)` other nodes. + successor table of size `O(log N)` (Total = O(2 log N))
-**Nodes**: Joining Cost | `O(log^2 N)` messages are required.
-**Nodes**: Leaving Cost | `O(log^2 N)` messages are required.
+**Nodes**: State | Has "Finger Tables", each node maintains information about `O(log N)` other nodes. + successor table of size `O(log N)` Total = `O(2 log N)`
+**Nodes**: Joining Cost | O(log<sup>2</sup> N) messages are required.
+**Nodes**: Leaving Cost | O(log<sup>2</sup> N) messages are required.
 **RP**: Node Lookup | `O(log N)` messages are required.  
 **RP**: Key Lookup | `O(log N)` messages are required. 
 **RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
@@ -61,13 +61,24 @@ Failure Resistant | With a pointer to a list of successors of length `θ(log N)`
 
 Criteria | Results
 :-- | :--:
-**Nodes**: State | Each node has to maintain three tables: Leaf Set (L), Routing Table (`O(log N)`) and the Neighborhood Set (M). Total = L + M + `O(log N)`. †
-**Nodes**: Joining Cost | O(log<sub>2<sup>b</sup></sub> N) messages are required. (As with Chord.)
+**Nodes**: State | Each node has to maintain three tables: Leaf Set (L), Routing Table (`O(log N)`) and the Neighborhood Set (M). Total = L + M + `O(log N)` = 'O(log N)'. †
+**Nodes**: Joining Cost | Is constant, since a node will simply copy the state of the closest node, and inform any node that is concerned of it's arrival (therefore in the worst case `O(log N)`).
+**Nodes**: Leaving Cost | Uses a lazy repair alg. and will eventually repair all the tables. 
+**RP**: Node Lookup | O(log<sub>2<sup>b</sup></sub> N) messages are required.
+**RP**: Key Lookup | O(log<sub>2<sup>b</sup></sub> N) messages are required.
+**RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
+Failure Resistant | Has a loose upper bound in presence of failure and a lookup can take up to `O(N)` during failure recovery.
+**Overall Performance** | Node/Key Lookup (in presence of high failure rate) can be up to `O(N)` but on average `O(log N)`.
+
+###Kademlia
+
+Criteria | Results
+:-- | :--:
+**Nodes**: State | Each node has to maintain information for 3 nodes (pointers): (its successor , first node that precedes `2m` (pointer to the start of the de Bruijn graph) and its predecessor).(State = `O(1)`) *(In the non-constant degree variation nodes maintain information for k nodes.)*
+**Nodes**: Joining Cost | `O(log^2 N)` messages are required. (As with Chord.)
 **Nodes**: Leaving Cost | `O(log^2 N)` messages are required. (As with Chord.)
-**RP**: Node Lookup | `O(log N)` messages are required.
-**RP**: Key Lookup | `O(log N)` messages are required.
+**RP**: Node Lookup | `O(log N)` messages are required if using a degree of 2. Can be optimized to `O(log N/ log log N)` using a degree of `O(log N).`
+**RP**: Key Lookup | `O(log N)` messages are required if using a degree of 2. Can be optimized to `O(log N/ log log N)` using a degree of `O(log N).`
 **RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
 Failure Resistant | With a pointer to a list of successors of length `θ(log N)` and a pointer to two lists (one consisting of `θ(log N)` nodes positioned after `k` and a similar list for nodes position before `k`) and then every node fails with probability of `1/2`, any lookup can be execute in the failed network with `O(log N/ log log N)` messages. 
 **Overall Performance** | Node/Key Lookup (in presence of high failure rate) can be up to `O(log N/ log log N)`.
-
-† *`b` correspond the exponent to the digit base representation (`2^b`); and L = M = `2^b or 2 * 2^b`*
