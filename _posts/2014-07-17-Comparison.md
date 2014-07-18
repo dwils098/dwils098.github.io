@@ -31,10 +31,10 @@ Let's look at each of them separately for each DHT, then we will present a summa
 
 Criteria | Result 
 :-- | :--:
-Nodes: State | foo 
-Nodes: Join | bar  
-RP: Node Lookup | baz  
-RP: Key Lookup |
-RP: Deterministic |
+**Nodes**: State | foo 
+**Nodes**: Join | bar  
+**RP**: Node Lookup | baz  
+**RP**: Key Lookup |
+**RP**: Deterministic |
 Failure Resistant |
-Overall Performance |
+**Overall Performance** |
