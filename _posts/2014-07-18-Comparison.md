@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Exploration of Distributed Hash Algorithms and Overlay Networks: Comparison"
-date: 2014-07-17 15:39:00
+date: 2014-07-18 15:39:00
 ---
 
 In this post we will compare the 4 different DHT algorithms surveyed on various aspects and try to come up with the pros and cons of each algorithms. But first let's look on what basis we will compare them, in other words which features and/or characteristics are evaluated.
@@ -56,3 +56,18 @@ Criteria | Results
 **RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
 Failure Resistant | With a pointer to a list of successors of length `θ(log N)` and a pointer to two lists (one consisting of `θ(log N)` nodes positioned after `k` and a similar list for nodes position before `k`) and then every node fails with probability of `1/2`, any lookup can be execute in the failed network with `O(log N/ log log N)` messages. 
 **Overall Performance** | Node/Key Lookup (in presence of high failure rate) can be up to `O(log N/ log log N)`.
+
+###Pastry
+
+Criteria | Results
+:-- | :--:
+**Nodes**: State | Each node has to maintain three tables: Leaf Set (L), Routing Table (`O(log N)`) and the Neighborhood Set (M). Total = L + M + `O(log N)`. †
+**Nodes**: Joining Cost | `O(log<sub>2<sup>b</sup></sub> N)` messages are required. (As with Chord.)
+**Nodes**: Leaving Cost | `O(log^2 N)` messages are required. (As with Chord.)
+**RP**: Node Lookup | `O(log N)` messages are required.
+**RP**: Key Lookup | `O(log N)` messages are required.
+**RP**: Deterministic | Yes a query will always return a value, or a definitive failure (The key does **not** exist in the system).
+Failure Resistant | With a pointer to a list of successors of length `θ(log N)` and a pointer to two lists (one consisting of `θ(log N)` nodes positioned after `k` and a similar list for nodes position before `k`) and then every node fails with probability of `1/2`, any lookup can be execute in the failed network with `O(log N/ log log N)` messages. 
+**Overall Performance** | Node/Key Lookup (in presence of high failure rate) can be up to `O(log N/ log log N)`.
+
+† *`b` correspond the exponent to the digit base representation (`2^b`); and L = M = `2^b or 2 * 2^b`*
