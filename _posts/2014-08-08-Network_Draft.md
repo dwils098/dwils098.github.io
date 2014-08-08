@@ -10,11 +10,11 @@ In this post I will draft out a possible network layer architecture for my Volun
 
 ###findService(service_name)
 ```
-**Description:** A node looks for a given service using this method and retrieves the location of the service provider using the overlay network.
+Description: A node looks for a given service using this method and retrieves the location of the service provider using the overlay network.
 
-**Inputs:** service_name
+Inputs: service_name
 
-**Returns:** Location of the service (Ip_address), and *null* if service doesn't exist.
+Returns: Location of the service (Ip_address), and *null* if service doesn't exist.
 ```
 
 ###postService(service_name)
