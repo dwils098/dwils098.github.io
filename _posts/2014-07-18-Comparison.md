@@ -71,3 +71,5 @@ Failure Resistant | Has a loose upper bound in presence of failure and a lookup 
 **Overall Performance** | Node/Key Lookup (in presence of high failure rate) can be up to `O(N)` but on average `O(log N)`.
 
 † *`b` correspond the exponent to the digit base representation (`2^b`); and L = M = `2^b or 2 * 2^b`*
+
+###Kademlia
