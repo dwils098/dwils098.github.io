@@ -9,9 +9,13 @@ In this post I will draft out a possible network layer architecture for my Volun
 ##API
 
 ###findService(service_name)
+```
 **Description:** A node looks for a given service using this method and retrieves the location of the service provider using the overlay network.
 
+**Inputs:** service_name
+
 **Returns:** Location of the service (Ip_address), and *null* if service doesn't exist.
+```
 
 ###postService(service_name)
 **Description:** A node advertises a service that it provides to the other nodes, using the DHT.
@@ -19,4 +23,4 @@ In this post I will draft out a possible network layer architecture for my Volun
 **Returns:** Nothing.
 
 ###requestService(service_name, [args])
-**Description:**
+**Description:** This methods provides means for a node to request another node's service on a set of given data. 
