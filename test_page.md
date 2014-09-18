@@ -1,8 +1,7 @@
 ---
 layout: page
-title: TEST
+title: CSI 2772 - Home Page
 ---
 
-<p class="message">
-  More about me... nah let's keep it anonymous.
-</p>
+###Thi
+#sda
