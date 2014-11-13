@@ -1,0 +1,709 @@
+Exercise 9.1: Explain the following initializations. Indicate if any
+are in error, and if so, why.
+
+int ia[7] = { 0, 1, 1, 2, 3, 5, 8 };
+
+string sa[6] = {
+
+"Fort Sumter", "Manassas", "Perryville",
+
+"Vicksburg", "Meridian", "Chancellorsville" };
+
+(a) vector<string> svec(sa, sa+6);
+
+(b) list<int> ilist( ia+4, ia+6);
+
+(c) vector<int> ivec(ia, ia+8);
+
+(d) list<string> slist(sa+6, sa);
+
+Answer 9.1:
+
+(a) Initializes svec as a copy of the string elements in sa.
+
+(b) Initializes ilist to hold two elements whose initial values are
+copies of the values ia[4] and ia[5].
+
+(c) Error—the initialization incorrectly passes a pointer to ia + 8.
+The array ia has 7 elements and so the pointer one past the end of ia can be
+formed as ia + 7.
+
+(d) Error—the initializers are swapped. The first initializer
+represents the beginning of a range of elements and the second represents the
+iterator one past the end of the range. This call incorrectly passes the end
+pointer as the first initializer and the beginning pointer as the second.
+
+--------------------------------------------------------------------------------
+
+Exercise 9.7: What is wrong with the following program? How might you
+correct it?
+
+list<int> lst1;
+
+list<int>::iterator iter1 = lst1.begin(),
+
+iter2 = lst1.end();
+
+while (iter1 < iter2) /* . . . */
+
+Answer 9.7: The list iterator does not provide the relational
+operators such as <. We could rewrite the loop to use inequality instead:
+
+while (iter1 != iter2) /* . . . */
+
+--------------------------------------------------------------------------------
+
+Exercise 9.9: Write a loop to write the elements of a list in reverse order.
+
+Answer 9.9: We can write this loop using an iterator. We’ll start that
+iterator at the end() of the list and decrement it till we reach the begin()
+value. There is one tricky part: handling the fact that the end() iterator refers
+to a nonexistent element one past the end of the container. We handle this fact
+by decrementing the iterator in the loop before printing the element:
+
+list<int> lst;
+
+// give lst some elements
+
+for (int i = 0; i != 10; ++i)
+
+lst.push_back(i);
+
+// write the elements in reverse order
+
+list<int>::const_iterator it = lst.end();
+
+while (it != lst.begin())
+
+// remember to decrement it before printing it
+
+cout << *--it << endl;
+
+--------------------------------------------------------------------------------
+
+Exercise 9.10: Which, if any, of the following iterator uses are in error?
+
+const vector< int > ivec(10);
+
+vector< string > svec(10);
+
+list< int > ilist(10);
+
+(a) vector<int>::iterator it = ivec.begin();
+
+(b) list<int>::iterator it = ilist.begin()+2;
+
+(c) vector<string>::iterator it = &svec[0];
+
+(d) for (vector<string>::iterator
+
+it = svec.begin(); it != 0; ++it)
+
+// ...
+
+Answer 9.10: Each of these examples is in error:
+
+(a) ivec is a const vector, meaning that its elements may not be
+changed. Attempting to bind a plain iterator to ivec would allow us to use the
+iterator to change the elements. We may only bind a const_iterator to a const
+container such as ivec.
+
+(b) list iterators do not support arithmetic, so the usage
+ilist.begin()+2 is in error.
+
+(c) The type of the right-hand operand of this example is string*—the
+expression &svec[0] fetches the element at position 0 in svec and takes the
+address of that element. The elements in svec are strings and so the type of
+&svec[0] is a pointer to string. There is no conversion from string* to
+vector<string>::iterator so the assignment is in error.
+
+(d) The condition in the for loop it != 0 is in error. it is a
+vector<string>::iterator and there is no comparison operator from that type to
+int. There also is no automatic conversion from int to vector<string>::iterator.
+Thus, it != 0 is in error
+
+--------------------------------------------------------------------------------
+
+Exercise 9.13: Rewrite the program that finds a value to return an
+iterator that refers to the element. Be sure your function works correctly if
+the element does not exist.
+
+
+Answer 9.13:
+
+list<int>::const_iterator
+
+find_elem(list<int>::const_iterator beg,
+
+list<int>::const_iterator end, int value)
+
+{
+
+// keep looking till we find the element or exhaust the input range
+
+while (beg != end && *beg == value)
+
+++beg;
+
+// beg either refers to the element if present, or to end if not
+
+return beg;
+
+}
+
+--------------------------------------------------------------------------------
+
+Exercise 9.14: Using iterators, write a program to read a sequence of
+strings from the standard input into a vector. Print the elements in the vector.
+
+Answer 9.14:
+
+#include <string>
+
+#include <vector>
+
+#include <iostream>
+
+using std::string; using std::vector;
+
+using std::cin; using std::cout; using std::endl;
+
+int main()
+
+{
+
+vector<string> svec;
+
+// read strings from the standard input and store them in a vector
+
+string s;
+
+while (cin >> s)
+
+svec.push_back(s);
+
+// write the elements
+
+for (vector<string>::const_iterator it = svec.begin();
+
+it != svec.end(); ++it)
+
+cout << *it << endl; // print each element
+
+return 0;
+
+}
+
+--------------------------------------------------------------------------------
+
+Exercise 9.20: Write a programto compare whether a vector<int> contains
+the same elements as a list<int>.
+
+Answer 9.20: Because the container equality operators require that the
+container and element types be identical we cannot use the == operator to
+compare these containers. Instead, we must write the loop explicitly, which we
+can do as:
+
+bool equal = false;
+
+// if the sizes are unequal,then the containers are unequal
+
+if (vec.size() == lst.size()) {
+
+vector<int>::const_iterator vecit = vec.begin();
+
+list<int>::const_iterator lstit = lst.begin();
+
+// we know vec and lst have same number of elements
+
+// so if vecit is still valid, so is lstit
+
+while (vecit != vec.end() && *vecit == *lstit) {
+
+++vecit;
+
+++lstit;
+
+}
+
+// the containers are equal if we looked at every element
+
+equal = vecit == vec.end();
+
+}
+
+if (equal)
+
+cout << "ok: they’re the same" << endl;
+
+else
+
+cout << "containers differ" << endl;
+
+We start by checking if the two containers are the same size. If not,
+they can’t be equal. If the two sizes are the same, we iterate through each
+container comparing elements from the vector to the corresponding element in the
+list. The while condition checks first that we have not yet exhausted
+the containers. If we hit the end() iterator on vec then we’ve also
+hit the end on lst and the loop is exited.
+Assuming the iterators are valid, the second test in the condition
+checks whether the values to which the iterators refer are equal.
+If not, we fall out of the loop; if they are equal the body of the while
+increments both iterators so that we look at the next elements in the sequences
+in the next iteration.
+
+Once the while is exited it remains to check whether we exited because
+the iterators were at the end or because we found an unequal element.
+
+--------------------------------------------------------------------------------
+
+Exercise 11.3: Use accumulate to sum the elements in a vector<int>.
+
+Answer 11.3:
+
+#include <vector>
+
+#include <numeric>
+
+#include <iostream>
+
+using std::vector; using std::accumulate;
+
+using std::cout; using std::endl;
+
+int main()
+
+{
+
+// define a vector of ints and give the vector some values
+
+vector<int> vi;
+
+for (int i = 0; i != 10; ++i)
+
+vi.push_back(i);
+
+// now use accumulate to sum the elements
+
+cout << accumulate(vi.begin(), vi.end(), 0) << endl;
+
+return 0;
+
+}
+
+--------------------------------------------------------------------------------
+
+Exercise 11.4: Assuming v is a vector<double> what, if anything, is
+wrong with calling
+
+accumulate(v.begin(), v.end(), 0)?
+
+Answer 11.4: The third argument to accumulate in this call has type
+int. That type governs how arithmetic is done inside accumulate. The double
+values in v will be converted to int and added to the int parameter using
+integer addition. When we sum the elements of a vector of double we presumably
+would want the addition done using floating point arithmetic. Because
+the type of the third parameter controls how the summation is done, to arrange
+for accumulate to add the values of v as doubles we must pass a third parameter
+whose type is double.
+
+--------------------------------------------------------------------------------
+
+Exercise 11.7: Determine if there are any errors in the following
+programs and, if so, correct the error(s):
+
+(a) vector<int> vec; list<int> lst; int i;
+
+while (cin >> i)
+
+lst.push_back(i);
+
+copy(lst.begin(), lst.end(), vec.begin());
+
+(b) vector<int> vec;
+
+vec.reserve(10);
+
+fill_n(vec.begin(), 10, 0);
+
+
+
+Answer 11.7:
+
+(a) The program is in error: The vector vec is empty so—assuming lst
+is nonempty—the call to copy will attempt to write to the nonexistent elements
+of vec. The call to copy should use back_inserter to allow new elements to be
+added to vec:
+
+copy(lst.begin(), lst.end(), back_inserter(vec));
+
+would add elements to vec to hold copies of the elements in lst. After
+this call, both lst and vec would hold the same number of elements.
+
+(b) The program is in error: The call to reserve allocates space to
+hold newly allocated elements in vec but does not create any elements. We define
+vec as an empty vector and after the call to reserve vec is still empty; it has
+no elements. Calling reserve can affect runtime performance; it leaves the
+number of elements in the vector unchanged.
+
+When we call fill_n we attempt towrite to the first 10 elements of
+vec, but there are no such elements.Again, we could fix this program by using
+back_inserter:
+
+fill_n(back_inserter(vec), 10, 0);
+
+Now the call to fill_n will add 10 elements to vec and give each newly
+added element the value 0.
+
+--------------------------------------------------------------------------------
+
+Exercise 11.14: Write a program that uses replace_copy to copy a
+sequence from one container to another, replacing elements with a given value in
+the first sequence by the specified new value. Write the program to use an
+inserter, a back_inserter and a front_inserter. Discuss how the output
+sequence varies in each case.
+
+
+Answer 11.14:
+
+#include <vector>
+
+#include <list>
+
+#include <iterator>
+
+#include <algorithm>
+
+#include <iostream>
+
+using std::vector; using std::replace_copy; using std::list;
+
+using std::inserter; using std::back_inserter; using std::front_inserter;
+
+using std::cin; using std::cout; using std::endl;
+
+int main()
+
+{
+
+// first create a container and populate it
+
+vector<int> vec;
+
+// give the vector 3 copies of the same range of elements:
+
+// vec will have 3 elements equal to 0, 3 equal to 1 etc.
+
+while (vec.size() < 30) {
+
+for (int i = 0; i != 10; ++i)
+
+vec.push_back(i);
+
+}
+
+// now copy into a list so we can use front_inserter
+
+list<int> repl, replF, replB;
+
+replace_copy(vec.begin(), vec.end(), inserter(repl, repl.begin()), 8, 80);
+
+replace_copy(vec.begin(), vec.end(), front_inserter(replF), 8, 80);
+
+replace_copy(vec.begin(), vec.end(), back_inserter(replB), 8, 80);
+
+for (vector<int>::iterator beg = vec.begin(); beg != vec.end(); ++beg)
+
+cout << *beg << " ";
+
+cout << endl;
+
+for (list<int>::iterator beg = repl.begin(); beg != repl.end(); ++beg)
+
+cout << *beg << " ";
+
+cout << endl;
+
+for (list<int>::iterator beg = replF.begin(); beg != replF.end(); ++beg)
+
+cout << *beg << " ";
+
+cout << endl;
+
+for (list<int>::iterator beg = replB.begin(); beg != replB.end(); ++beg)
+
+cout << *beg << " ";
+
+cout << endl;
+
+return 0;
+
+}
+
+
+
+The sequences created using either inserter or back_inserter match the
+original sequence, with the exception that each 8 is replaced by the value 80.
+The relative order of the elements is preserved because we copy each element in
+sequence to the then end of the list.
+
+When we use front_inserter the order in which elements are inserted is
+reversed from the order of the original sequence and from the order in which
+back_inserter or inserter add elements. Using front_inserter, the elements are
+added in sequence as the then first element in the list. When we copy the first
+element from vec into replF it is the only element in the list. When we copy the
+second element fromvec into replF that element is inserted in front of the
+original first element in replF. Hence, what is the second element in vec becomes
+the (temporarily) first element in replF. As each element is copied from vec it
+is inserted at the beginning of replF, revsersing the order of the elements.
+
+--------------------------------------------------------------------------------
+
+Exercise 11.15: The algorithms library defines a function named
+unique_copy that operates like unique, except that it takes a third iterator
+denoting a sequence into which to copy the unique elements. Write a program that
+uses unique_copy to copy the unique elements from a list into an initially
+empty vector.
+
+
+Answer 11.15: Unfortunately, this question has a problem: It relies on
+knowing material—how to use the list sort member—that will be covered later in
+this chapter. The easiest solution is to rephrase the question (which will be
+done starting in the fourth printing) to suggest copying unique elements from a
+vector into a list.
+
+Given this rewrite to the question, and using the vector from the
+previous exercise, the solution would look something like:
+
+// first make sure that vec is in sorted order
+
+sort(vec.begin(), vec.end());
+
+list<int> lst;
+
+unique_copy(vec.begin(), vec.end(), back_inserter(lst));
+
+for (list<int>::iterator beg = lst.begin(); beg != lst.end(); ++beg)
+
+cout << *beg << " ";
+
+cout << endl
+
+--------------------------------------------------------------------------------
+
+Exercise 11.18: Write a program to read a sequence of integer numbers
+from the standard input using an istream_iterator. Write the odd numbers into
+one file, using an ostream_iterator. Each value should be followed by a space.
+Write the even numbers into a second file, also using an ostream_iterator. Each
+of these values should be placed on a separate line.
+
+
+Answer 11.18:
+
+#include <iostream>
+
+#include <fstream>
+
+#include <iterator>
+
+#include <algorithm>
+
+using std::copy; using std::cin; using std::cout;
+
+using std::istream_iterator; using std::ostream_iterator;
+
+using std::ofstream;
+
+// takes two input iterators denoting the input sequence and
+
+// two output iterators into which to write the even and odd
+
+// numbers read respectively
+
+void split_evenodd(istream_iterator<int> beg, istream_iterator<int> end,
+
+ostream_iterator<int> even, ostream_iterator<int> odd)
+
+{
+
+// read the input file separating even and odd numbers
+
+while (beg != end) {
+
+int i = *beg++;
+
+if (i % 2)
+
+*odd++ = i;
+
+else
+
+*even++ = i;
+
+}
+
+}
+
+int main()
+
+{
+
+// read ints from standard input and the end iterator
+
+istream_iterator<int> in_iter(cin), eof;
+
+// write odd numbers to a file using a space as element separator
+
+ofstream odd("odd");
+
+ostream_iterator<int> odd_iter(odd, " ");
+
+// write even numbers to a file using a newline as element separator
+
+ofstream even("even");
+
+ostream_iterator<int> even_iter(even, "\n");
+
+// now call split_evenodd to do the work
+
+split_evenodd(in_iter, eof, even_iter, odd_iter);
+
+return 0;
+
+}
+
+--------------------------------------------------------------------------------
+
+Exercise 11.19: Write a program that uses reverse_iterators to print
+the contents of a vector in reverse order.
+
+
+Answer 11.19:
+
+#include <vector>
+
+#include <iostream>
+
+using std::vector; using std::cout; using std::endl;
+
+int main()
+
+{
+
+// define a vector and give it some values
+
+vector<int> v;
+
+for (int i = 0; i != 10; ++i)
+
+v.push_back(i);
+
+// now use reverse iterators to print it backwards
+
+vector<int>::reverse_iterator beg = v.rbegin();
+
+while (beg != v.rend())
+
+cout << *beg++ << endl;
+
+return 0;
+
+}
+
+--------------------------------------------------------------------------------
+
+Exercise 11.26: Explain why each of the following is incorrect.
+Identify which errors should be caught during compilation.
+
+(a) string sa[10];
+
+const vector<string> file_names(sa, sa+6);
+
+vector<string>::iterator it = file_names.begin()+2;
+
+(b) const vector<int> ivec;
+
+fill(ivec.begin(), ivec.end(), ival);
+
+(c) sort(ivec.begin(), ivec.rend());
+
+(d) sort(ivec1.begin(), ivec2.end());
+
+
+Answer 11.26:
+
+(a) file_names is a const vector so we cannot obtain a plain iterator
+into the vector. The declaration of it should be:
+
+vector<string>::const_iterator it = file_names.begin()+2;
+
+(b) The call to fill should fail to compile because the iterators
+returned by ivec.begin and ivec.end will be const_iterators. The vector ivec is
+a const vector and so when we call begin or end the type of iterator we get is a
+const_iterator. Inside fill, the code must attempt to assign to the iterator it
+is passed. We can infer that there is a loop something like:
+
+// psuedo-code implementation of fill
+
+while (beg != end)
+
+*beg++ = val;
+
+where beg and end are fill’s iterator parameters and val is third fill
+parameter. However, in this call, the iterators passed to fill are
+const_iterators and it is not possible to assign to a const_iterator.
+
+(c) This call attempts to use a plain iterator and a reverse_iterator
+to denote an input range. Instead, we can sort in ascending order using begin()
+and end() or in descending order using rbegin() and rend():
+
+sort(ivec.begin(), ivec.end()); // ascending order
+
+sort(ivec.rbegin(), ivec.rend()); // descending order
+
+(d) This call is in error because it attempts to use iterators
+referring to elements in two different containers.
+
+--------------------------------------------------------------------------------
+
+Exercise 11.27: The library defines the following algorithms:
+
+replace(beg, end, old_val, new_val);
+
+replace_if(beg, end, pred, new_val);
+
+replace_copy(beg, end, dest, old_val, new_val);
+
+replace_copy_if(beg, end, dest, pred, new_val);
+
+Based only on the names and parameters to these functions, describe
+the operation that these algorithms perform.
+
+
+
+Answer 11.27: In all four functions we can infer that:
+
+• beg and end are iterators that denote an input range;
+
+• dest is an output iterator that denotes a destination container;
+
+• old_val is the value to be replaced;
+
+• pred is a predicate function used to determine which elements are replaced.
+
+• old_val is the new value to use in place of the one being replaced.
+
+Given this interpretation of the parameters, we can expect that
+replace replaces elements in the input range denoted by beg and end
+that are equal to old_val by the new value new_val.
+
+replace_if replaces elements in the input range denoted by beg and end
+for which pred returns true by the new value new_val.
+
+replace_copy replaces elements in the input range denoted by beg and
+end that are equal to old_val by the new value new_val and writes the new
+sequence into dest leaving the original sequence unchanged.
+
+replace_copy_if replaces elements in the input range denoted by beg
+and end for which pred returns true by the new value new_val and writes the new
+sequence into dest leaving the original unchanged.
